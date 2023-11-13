@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:stepping_stones/goal_tracking/path.dart';
 import 'package:stepping_stones/journaling/journal_page.dart';
+
+enum CurrentPage {
+  journal,
+  stepping
+}
 
 class Objective extends StatefulWidget {
   const Objective(
@@ -15,6 +21,8 @@ class Objective extends StatefulWidget {
 }
 
 class _ObjectiveState extends State<Objective> {
+  CurrentPage __current = CurrentPage.stepping;
+
   Dialog entryInfo() => Dialog(
     child: Column(
       mainAxisSize: MainAxisSize.min,
@@ -34,7 +42,12 @@ class _ObjectiveState extends State<Objective> {
       onTap: () => {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => JournalPage(widget.name))
+          MaterialPageRoute(builder: (context) =>
+            switch (__current) {
+              CurrentPage.journal => JournalPage(widget.name),
+              CurrentPage.stepping => SteppingStonePage(widget.name)
+              }
+          )
         )
       },
 
