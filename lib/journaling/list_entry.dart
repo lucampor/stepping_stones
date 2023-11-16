@@ -1,27 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:stepping_stones/journaling/journal_page.dart';
+import 'package:stepping_stones/journaling/data.dart';
 
-class Objective extends StatefulWidget {
-  const Objective(
-    this.name,
-    {
-      super.key,
-  });
+class JournalEntry extends StatelessWidget {
+  const JournalEntry(this.data, {super.key});
 
-  final String name;
+  final JournalEntryData data;
 
-  @override
-  State<Objective> createState() => _ObjectiveState();
-}
 
-class _ObjectiveState extends State<Objective> {
   Dialog entryInfo() => Dialog(
     child: Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         AppBar(
-          title: Text(widget.name),
+          title: Text(data.name),
           centerTitle: true,
         )
       ],
@@ -31,12 +23,10 @@ class _ObjectiveState extends State<Objective> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => JournalPage(widget.name))
-        )
-      },
+      onTap: () => showDialog(
+        context: context,
+        builder: (BuildContext context) => entryInfo(),
+      ),
 
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10),
@@ -53,7 +43,7 @@ class _ObjectiveState extends State<Objective> {
             children: [
               Expanded(
                 child: Text(
-                  widget.name,
+                  data.name,
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold

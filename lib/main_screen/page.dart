@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:stepping_stones/main_screen/objective.dart';
+import 'package:stepping_stones/journaling/data.dart';
+import 'package:stepping_stones/journaling/entry_type.dart';
+import 'package:stepping_stones/objectives/data.dart';
+import 'package:stepping_stones/objectives/entry.dart';
+import 'package:stepping_stones/objectives/model.dart';
 
 class GoalPage extends StatefulWidget {
   const GoalPage({super.key});
@@ -15,7 +19,7 @@ class _GoalPageState extends State<GoalPage> {
   @override
   Widget build(BuildContext context) {
     var appBar = AppBar(
-        backgroundColor: Theme.of(context).colorScheme.primary,
+        backgroundColor: Colors.lightBlue,//Theme.of(context).colorScheme.primary,
         toolbarHeight: 70,
         centerTitle: true,
 
@@ -50,16 +54,20 @@ class _GoalPageState extends State<GoalPage> {
         ),
     ));
 
-    var confidence = const Objective("Improving confidence");
-    var selftalk = const Objective("Working on my self-talk");
+    var confidence = ObjectiveData("Improving confidence");
+    var selftalk = ObjectiveData("Working on my self-talk",
+      journalEntries: [
+        JournalEntryData("Yesterday I wanted to fish a crab", type: EntryType.note),
+        JournalEntryData("Yesterday I wanted to hunt a moose", type: EntryType.note)
+    ]);
 
     var pages = [
-      descriptiveText,
+      //descriptiveText,
       confidence,
       selftalk
     ];
 
-    Widget selectChild(List<Widget> list) {
+    Widget selectChild(List<ObjectiveData> list) {
       if (list.length <= 1) {
         return const Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -82,7 +90,8 @@ class _GoalPageState extends State<GoalPage> {
 
           itemCount: pages.length,
           itemBuilder: (context, index) {
-            return pages[index];
+            var model = ObjectiveModel(pages[index]);
+            return ObjectiveEntry(model);
           }
         );
        }
@@ -101,13 +110,4 @@ class _GoalPageState extends State<GoalPage> {
       floatingActionButton: addButton,
     );
   }
-
-  // void goto() {
-  //   Navigator.push(
-  //       context,
-  //       MaterialPageRoute(
-  //         builder: (context) => const SecondRoute()
-  //       ),
-  //     );
-  // }
 }
