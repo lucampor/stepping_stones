@@ -1,27 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:stepping_stones/goal_tracking/path.dart';
-import 'package:stepping_stones/journaling/journal_page.dart';
+import 'package:stepping_stones/journaling/data.dart';
 
-enum CurrentPage {
-  journal,
-  stepping
-}
+class JournalEntry extends StatelessWidget {
+  const JournalEntry(this.data, {super.key});
 
-class Objective extends StatefulWidget {
-  const Objective(
-    this.name,
-    {
-      super.key,
-  });
+  final JournalEntryData data;
 
-  final String name;
-
-  @override
-  State<Objective> createState() => _ObjectiveState();
-}
-
-class _ObjectiveState extends State<Objective> {
-  CurrentPage __current = CurrentPage.stepping;
 
   Dialog entryInfo() => Dialog(
     child: Column(
@@ -29,7 +13,7 @@ class _ObjectiveState extends State<Objective> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         AppBar(
-          title: Text(widget.name),
+          title: Text(data.name),
           centerTitle: true,
         )
       ],
@@ -39,17 +23,10 @@ class _ObjectiveState extends State<Objective> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) =>
-            switch (__current) {
-              CurrentPage.journal => JournalPage(widget.name),
-              CurrentPage.stepping => SteppingStonePage(widget.name)
-              }
-          )
-        )
-      },
+      onTap: () => showDialog(
+        context: context,
+        builder: (BuildContext context) => entryInfo(),
+      ),
 
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10),
@@ -66,7 +43,7 @@ class _ObjectiveState extends State<Objective> {
             children: [
               Expanded(
                 child: Text(
-                  widget.name,
+                  data.name,
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold
