@@ -4,6 +4,7 @@ import 'package:stepping_stones/journaling/data.dart';
 import 'package:stepping_stones/objectives/data.dart';
 import 'package:stepping_stones/objectives/page.dart';
 import 'package:stepping_stones/stones/data.dart';
+import 'package:stepping_stones/stones/status.dart';
 
 class ObjectiveModel extends ChangeNotifier {
   ObjectiveModel(this._data);
@@ -12,8 +13,15 @@ class ObjectiveModel extends ChangeNotifier {
   final ObjectiveData _data;
 
   String get name => _data.name;
-  List<SteppingStoneData> get stones => _data.steppingStones?.toList() ?? <SteppingStoneData>[];
-  List<JournalEntryData> get journal => _data.journalEntries?.toList() ?? <JournalEntryData>[];
+  List<SteppingStoneData> get stones => _data.steppingStones ?? <SteppingStoneData>[];
+  List<JournalEntryData> get journal => _data.journalEntries ?? <JournalEntryData>[];
+
+  (int, int) get stonesOngoingTotalPair {
+    return _data.steppingStones?.fold<(int, int)>((0,0), (pair, element) {
+        var (ongoing, total) = pair;
+        return (element.status == StoneStatus.ongoing ? ongoing + 1 : ongoing, total + 1);
+    }) ?? (0, 0);
+  }
 
   void removeJournalEntry() => {};
 

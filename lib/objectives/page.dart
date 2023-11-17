@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:stepping_stones/journaling/data.dart';
 import 'package:stepping_stones/journaling/entry_type.dart';
 import 'package:stepping_stones/journaling/list.dart';
 import 'package:stepping_stones/objectives/model.dart';
+import 'package:stepping_stones/stones/data.dart';
 import 'package:stepping_stones/stones/list.dart';
 
 enum CurrentPage {
@@ -146,12 +148,64 @@ class _ObjectivePageState extends State<ObjectivePage> {
     );
   }
 
-  FloatingActionButton addButton() {
+  FloatingActionButton addButton(BuildContext context) {
     var newEntry = isJournal(widget.current) ? "Journal Entry" : "Stepping Stone";
     var newIcon = isJournal(widget.current) ? Icons.auto_stories : Icons.hive_outlined;
 
     return FloatingActionButton.extended(
       onPressed: (){
+        // TODO Make dialog to add name of stepping stone (no need for other screens)
+        showDialog(context: context,
+          builder: (BuildContext context) {
+            var controller = TextEditingController();
+            void save() {
+              if (controller.text.isNotEmpty) {
+                widget.notifier.insertStone(SteppingStoneData(controller.text.toString()));
+                Navigator.pop(context);
+                // ScaffoldMessenger.of(context).showSnackBar(
+                //     const SnackBar(content: Text('Processing Data')),
+                // );
+              }
+            }
+            return Dialog(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  AppBar(title: const Text("Insert new Stepping Stone"),),
+                  SafeArea(
+                    minimum: const EdgeInsets.symmetric(
+                      vertical: 5,
+                      horizontal: 20
+                    ),
+                    child: Column(
+                      children: [
+                        TextFormField(
+                           controller: controller,
+                           onEditingComplete: save,
+                           maxLength: 100,
+                           autofocus: true,
+                           validator: (value) {
+                             if (value == null || value.isEmpty) {
+                               return "Please add something!";
+                             }
+                             return null;
+                           },
+                         ),
+                         Align(
+                           alignment: Alignment.bottomCenter,
+                           child: FloatingActionButton.extended(
+                             label: const Text("Add new stone!"),
+                             onPressed: save,
+                        ),
+                         ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
+        );
       },
       backgroundColor: Colors.lightBlue,
       label: Row(
@@ -186,22 +240,24 @@ class _ObjectivePageState extends State<ObjectivePage> {
         appBar: appBar(),
         body: SafeArea(
           minimum: const EdgeInsets.symmetric(
-            vertical: 30,
+            vertical: 10,
             horizontal: 20,
           ),
           child: ListenableBuilder(
             listenable: widget.notifier,
             builder: (context, child) {
               var currentList = isJournal(widget.current) ? JournalList(widget.notifier) : SteppingStoneList(widget.notifier);
-              return Stack(
+              return Column(
                 children: [
-                  Center(
-                    child: (widget.notifier.isEmpty(widget.current) ? emptyMessage : currentList)
+                  Expanded(
+                    child: Center(
+                      child: (widget.notifier.isEmpty(widget.current) ? emptyMessage : currentList)
+                    ),
                   ),
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: addButton()
-                  )
+                  const Divider(height: 15, color: Colors.transparent),
+                  Center(
+                      child: addButton(context)
+                  ),
                 ],
               );
             }
@@ -210,7 +266,6 @@ class _ObjectivePageState extends State<ObjectivePage> {
         //
         // add_task_sharp
 
-        // TODO Stretch buttons & add top padding
         bottomNavigationBar: bottomBar(),
     );
   }

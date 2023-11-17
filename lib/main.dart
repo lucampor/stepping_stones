@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:stepping_stones/main_screen/goal_page.dart';
+import 'package:stepping_stones/main_screen/page.dart';
 
 void main() {
   runApp(
