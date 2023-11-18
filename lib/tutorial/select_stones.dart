@@ -1,23 +1,15 @@
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:stepping_stones/tutorial/disclaimer.dart';
 
-class SelectGoal extends StatefulWidget {
-  bool isSelected = false;
+class SelectStones extends StatefulWidget {
+  const SelectStones({super.key});
 
   @override
   State<SelectStones> createState() => _SelectStonesState();
 }
 
-
 class _SelectStonesState extends State<SelectStones> {
-  late bool _isSelected;
-
-  @override
-  void initState() {
-    super.initState();
-    _isSelected = widget.isSelected;
-  }
-
   @override
   Widget build(BuildContext context) {
     var appBar = AppBar(
@@ -56,7 +48,8 @@ class _SelectStonesState extends State<SelectStones> {
       width: 90,
       height: 40,
       child: OutlinedButton(
-        onPressed: (){print("test");},
+        onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const Disclaimer()));},
         child: const Center(
           child: Text("Next",
             style: TextStyle(
@@ -72,7 +65,7 @@ class _SelectStonesState extends State<SelectStones> {
       width: 90,
       height: 40,
       child: OutlinedButton(
-        onPressed: (){print("test");},
+        onPressed: (){Navigator.pop(context);},
         child: const Center(
           child: Text("Back",
             style: TextStyle(
@@ -86,80 +79,108 @@ class _SelectStonesState extends State<SelectStones> {
 
     var descriptiveText = 
       Padding(
-              padding: const EdgeInsets.fromLTRB(0, 64, 0, 32),
-              child: const Center(child: Text(
-        "Select some stepping stones for improving self-talk",
-        style: TextStyle(
-          fontSize: 18,
-          color: Colors.black,
-        ),
-    )));
+          padding: const EdgeInsets.fromLTRB(0, 32, 0, 20),
+          child: Column(
+            children: <Widget>[
+            Center(child: Text(
+            "Select some stepping stones for",
+            style: TextStyle(
+              fontSize: 18,
+              color: Colors.black,
+            ))),
+            Center(child: Text(
+            "improving self-talk",
+            style: TextStyle(
+              fontSize: 18,
+              color: Colors.black,
+            )))]
+          )
+    );
 
     var progressBar = Padding(
       padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
       child: StepProgressIndicator(
         totalSteps: 3,
-        currentStep: 1,
+        currentStep: 2,
         size: 15,
         selectedColor: Colors.green,
         unselectedColor: Colors.black38,
     ));
 
-    var progressAndProceed = Padding(
-              padding: const EdgeInsets.fromLTRB(12, 0, 12, 32),
-              child: Row(
+    var progressAndProceed = Row(
       children: <Widget>[
           backButton,
           Expanded(child: progressBar),
-          skipButton,
+          nextButton,
       ]
-    ));
+    );
+
+    var steppingStones = Column(
+      children: <Widget>[
+        descriptiveText,
+        SteppingStoneItem("Start your day by saying positive affirmations in the mirror"),
+        SteppingStoneItem("Challenge your inner critic — provide counterarguments for your negative thoughts"),
+        SteppingStoneItem("Find examples of traits you want that can already be found in you"),
+        SteppingStoneItem("Complete a social media — unfollow accounts that harm you"),
+        SteppingStoneItem("Go a whole day saying \"I can't\" or \"I should do\""),
+        SteppingStoneItem("Outline the characteristics you wish to have"),
+    ]);
     
-    return 
-    Scaffold(
+    return Scaffold(
+      backgroundColor: Color(0xFFFFFFFF),
+      body:
+    Padding(
+      padding: const EdgeInsets.fromLTRB(12, 32, 12, 32),
+    child: Scaffold(
       backgroundColor: Color(0xFFFFFFFF),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        Column(
-          children: <Widget>[
-        descriptiveText,
-         Material(
-          child: InkWell(
-          onTap: () {
-            setState(() {
-              _isSelected = false;
-            });
-          },
-          child: Card(
-              child: ListTile(
-            title: Text(
-              'Improving confidence',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            // subtitle: Text('Membuat pembayaran untuk diri sendiri'),
-            trailing: _isSelected ? const Icon(Icons.check_circle) : const Icon(Icons.circle),
-          )),
-        )),
-        Material(
-          child: InkWell(
-          onTap: () {
-            setState(() {
-              _isSelected = false;
-            });
-          },
-          child: Card(
-            child: ListTile(
-              title: Text('Working on my self-talk', style: TextStyle(fontWeight: FontWeight.bold)),
-              // subtitle: Text('Membuat pembayaran untuk organisasi'),
-              trailing: !_isSelected ? const Icon(Icons.check_circle) : const Icon(Icons.circle),
-            ),
-          ),
-        ))]),
+        steppingStones,
         progressAndProceed
       ],
     )
-    );
+    )));
+  }
+}
+
+// individual stepping stone item
+class SteppingStoneItem extends StatefulWidget {
+  const SteppingStoneItem(this.steppingStoneText, {super.key});
+  final String steppingStoneText;
+
+  @override
+  _SteppingStoneItemState createState() => _SteppingStoneItemState();
+}
+ 
+class _SteppingStoneItemState extends State<SteppingStoneItem> {
+  bool value = false;
+
+  @override
+  Widget build(BuildContext context) {
+  return Padding(
+    padding: const EdgeInsets.fromLTRB(0, 0, 0, 12),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+    children: <Widget>[
+      /** Checkbox Widget **/
+      Checkbox(
+        value: this.value,
+        onChanged: (bool? value) {
+          if (value != null) {
+          setState(() {
+            this.value = value;
+          });
+          }
+        },
+      ), //Checkbox
+      SizedBox(width: 10), //SizedBox
+      Flexible (child: Text(
+            widget.steppingStoneText,
+            style: TextStyle(fontSize: 16),
+          )), //Text
+    ], //<Widget>[]
+  )); //Row
   }
 }

@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlueAccent),
         useMaterial3: true,
       ),
-      home: SelectGoal(), //const GoalPage(), const JournalPage("Improving confidence"),
+      home: const SelectGoal(false), //const GoalPage(), const JournalPage("Improving confidence"),
     );
   }
 }

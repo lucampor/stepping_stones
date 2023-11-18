@@ -1,8 +1,11 @@
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:stepping_stones/tutorial/select_stones.dart';
 
 class SelectGoal extends StatefulWidget {
-  bool isSelected = false;
+  const SelectGoal(this.isSelected, {super.key});
+
+  final bool isSelected;
 
   @override
   State<SelectGoal> createState() => _SelectGoalState();
@@ -10,7 +13,7 @@ class SelectGoal extends StatefulWidget {
 
 
 class _SelectGoalState extends State<SelectGoal> {
-  late bool _isSelected;
+  late bool _isSelected = false;
 
   @override
   void initState() {
@@ -21,7 +24,7 @@ class _SelectGoalState extends State<SelectGoal> {
   @override
   Widget build(BuildContext context) {
     var appBar = AppBar(
-        backgroundColor: Colors.lightBlue,//Theme.of(context).colorScheme.primary,
+        backgroundColor: Color(0xFFFFFFFF),//Theme.of(context).colorScheme.primary,
         toolbarHeight: 70,
         centerTitle: true,
 
@@ -40,7 +43,9 @@ class _SelectGoalState extends State<SelectGoal> {
       width: 90,
       height: 40,
       child: OutlinedButton(
-        onPressed: (){print("test");},
+        onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const SelectStones()));
+        },
         child: const Center(
           child: Text("Next",
             style: TextStyle(
@@ -54,8 +59,8 @@ class _SelectGoalState extends State<SelectGoal> {
 
     var descriptiveText = 
       Padding(
-              padding: const EdgeInsets.fromLTRB(0, 64, 0, 32),
-              child: const Center(child: Text(
+        padding: const EdgeInsets.fromLTRB(0, 32, 0, 20),
+        child: const Center(child: Text(
         "What goal would you like to work on?",
         style: TextStyle(
           fontSize: 18,
@@ -64,7 +69,7 @@ class _SelectGoalState extends State<SelectGoal> {
     )));
 
     var progressBar = Padding(
-      padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
+      padding: const EdgeInsets.fromLTRB(0, 0, 12, 0),
       child: StepProgressIndicator(
         totalSteps: 3,
         currentStep: 1,
@@ -73,16 +78,20 @@ class _SelectGoalState extends State<SelectGoal> {
         unselectedColor: Colors.black38,
     ));
 
-    var progressAndProceed = Padding(
-              padding: const EdgeInsets.fromLTRB(12, 0, 12, 32),
-              child: Row(
+    var progressAndProceed = Row(
       children: <Widget>[
           Expanded(child: progressBar),
           nextButton,
       ]
-    ));
+    );
     
     return 
+    Scaffold(
+      backgroundColor: Color(0xFFFFFFFF),
+      body:
+    Padding(
+      padding: const EdgeInsets.fromLTRB(12, 32, 12, 32),
+    child: 
     Scaffold(
       backgroundColor: Color(0xFFFFFFFF),
       body: Column(
@@ -105,28 +114,26 @@ class _SelectGoalState extends State<SelectGoal> {
               'Improving confidence',
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            // subtitle: Text('Membuat pembayaran untuk diri sendiri'),
-            trailing: _isSelected ? const Icon(Icons.check_circle) : const Icon(Icons.circle),
+            trailing: !_isSelected ? const Icon(Icons.check_circle) : const Icon(Icons.circle),
           )),
         )),
         Material(
           child: InkWell(
           onTap: () {
             setState(() {
-              _isSelected = false;
+              _isSelected = true;
             });
           },
           child: Card(
             child: ListTile(
               title: Text('Working on my self-talk', style: TextStyle(fontWeight: FontWeight.bold)),
-              // subtitle: Text('Membuat pembayaran untuk organisasi'),
-              trailing: !_isSelected ? const Icon(Icons.check_circle) : const Icon(Icons.circle),
+              trailing: _isSelected ? const Icon(Icons.check_circle) : const Icon(Icons.circle),
             ),
           ),
         ))]),
         progressAndProceed
       ],
     )
-    );
+    )));
   }
 }
