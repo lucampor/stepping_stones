@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stepping_stones/stones/data.dart';
+import 'package:stepping_stones/stones/model.dart';
+import 'package:stepping_stones/stones/page.dart';
 
 class SteppingStoneEntry extends StatelessWidget {
   const SteppingStoneEntry(this.data, {super.key});
@@ -11,7 +13,8 @@ class SteppingStoneEntry extends StatelessWidget {
     var size = 30.0;
 
     return InkWell(
-      onTap: () {print(data.task);},
+      onTap: () {Navigator.push(context,
+      MaterialPageRoute(builder: (BuildContext context) => SteppingStonePage(SteppingStoneModel(data))));},
       child: ClipRRect(
         child: Container(
           decoration: BoxDecoration(

@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:stepping_stones/journaling/data.dart';
-import 'package:stepping_stones/journaling/entry_type.dart';
 import 'package:stepping_stones/journaling/list.dart';
 import 'package:stepping_stones/objectives/model.dart';
 import 'package:stepping_stones/stones/data.dart';
@@ -150,6 +147,7 @@ class _ObjectivePageState extends State<ObjectivePage> {
 
   FloatingActionButton addButton(BuildContext context) {
     var newEntry = isJournal(widget.current) ? "Journal Entry" : "Stepping Stone";
+    String newEntryMsg = "Add new $newEntry";
     var newIcon = isJournal(widget.current) ? Icons.auto_stories : Icons.hive_outlined;
 
     return FloatingActionButton.extended(
@@ -171,10 +169,10 @@ class _ObjectivePageState extends State<ObjectivePage> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  AppBar(title: const Text("Insert new Stepping Stone"),),
+                  AppBar(title: Text(newEntryMsg),),
                   SafeArea(
                     minimum: const EdgeInsets.symmetric(
-                      vertical: 5,
+                      vertical: 50,
                       horizontal: 20
                     ),
                     child: Column(
@@ -182,7 +180,7 @@ class _ObjectivePageState extends State<ObjectivePage> {
                         TextFormField(
                            controller: controller,
                            onEditingComplete: save,
-                           maxLength: 100,
+                           maxLength: 50,
                            autofocus: true,
                            validator: (value) {
                              if (value == null || value.isEmpty) {
@@ -213,7 +211,7 @@ class _ObjectivePageState extends State<ObjectivePage> {
           Icon(newIcon,
             size: 40,
           ),
-          Text("Add new\n$newEntry",
+          Text(newEntryMsg,
             style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold

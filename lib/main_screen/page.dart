@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:stepping_stones/journaling/data.dart';
-import 'package:stepping_stones/journaling/entry_type.dart';
 import 'package:stepping_stones/objectives/data.dart';
 import 'package:stepping_stones/objectives/entry.dart';
 import 'package:stepping_stones/objectives/model.dart';
@@ -57,8 +55,6 @@ class _GoalPageState extends State<GoalPage> {
     var confidence = ObjectiveData("Improving confidence");
     var selftalk = ObjectiveData("Working on my self-talk",
       journalEntries: [
-        JournalEntryData("Yesterday I wanted to fish a crab", type: EntryType.note),
-        JournalEntryData("Yesterday I wanted to hunt a moose", type: EntryType.note)
     ]);
 
     var pages = [

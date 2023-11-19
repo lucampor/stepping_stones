@@ -14,7 +14,11 @@ class ObjectiveModel extends ChangeNotifier {
 
   String get name => _data.name;
   List<SteppingStoneData> get stones => _data.steppingStones ?? <SteppingStoneData>[];
-  List<JournalEntryData> get journal => _data.journalEntries ?? <JournalEntryData>[];
+  List<JournalEntryData> get journal {
+    List<JournalEntryData> objectiveJournal = _data.journalEntries ?? [];
+    List<JournalEntryData> stonesJournal = _data.steppingStones?.fold([], (list, element) => [...element.relatedJournal ?? [], ...list ?? []]) ?? [];
+    return objectiveJournal + stonesJournal;
+  }
 
   (int, int) get stonesOngoingTotalPair {
     return _data.steppingStones?.fold<(int, int)>((0,0), (pair, element) {
