@@ -36,7 +36,7 @@ class Disclaimer extends StatelessWidget {
           totalSteps: 3,
           currentStep: 3,
           size: 15,
-          selectedColor: Colors.green,
+          selectedColor: Colors.lightBlue,
           unselectedColor: Colors.black38,
         ));
 
@@ -44,6 +44,9 @@ class Disclaimer extends StatelessWidget {
         width: 90,
         height: 40,
         child: OutlinedButton(
+            style: OutlinedButton.styleFrom(
+              foregroundColor: Colors.blue,
+            ),
             onPressed: () {
               Navigator.pop(context);
             },
@@ -62,6 +65,9 @@ class Disclaimer extends StatelessWidget {
         width: 140,
         height: 40,
         child: OutlinedButton(
+            style: OutlinedButton.styleFrom(
+              foregroundColor: Colors.blue,
+            ),
             onPressed: () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => const GoalPage()));
@@ -77,9 +83,9 @@ class Disclaimer extends StatelessWidget {
               ),
             )));
 
-    var progressAndProceed = Row(children: <Widget>[
+    var navButtons = Row(children: <Widget>[
       backButton,
-      Expanded(child: progressBar),
+      const Spacer(),
       finishButton,
     ]);
 
@@ -97,8 +103,13 @@ class Disclaimer extends StatelessWidget {
                       headingText,
                       disclaimerText,
                     ]),
-                    const SteppingStoneItem("I understand"),
-                    progressAndProceed
+                    const SteppingStoneItem("center", "I understand"),
+                    Column(children: <Widget>[
+                      Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 0, 0, 12),
+                          child: navButtons),
+                      progressBar
+                    ])
                   ],
                 ))));
   }
