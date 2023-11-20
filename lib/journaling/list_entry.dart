@@ -11,7 +11,7 @@ class JournalEntry extends StatelessWidget {
     
     var questionText = (data.question != null) ? 
       Padding(
-        padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
         child: Text(
         data.question.toString(), 
         style: const TextStyle(
@@ -21,11 +21,13 @@ class JournalEntry extends StatelessWidget {
       : const SizedBox(height: 4);
 
     Dialog entryInfo() => Dialog(
-    backgroundColor: Color(0xFFFFFFFF),
-    shape: RoundedRectangleBorder(
-    borderRadius: BorderRadius.circular(4),),
-    child: Padding(
-      padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.lightBlue[50], 
+            borderRadius: BorderRadius.all(Radius.circular(20))
+          ),
+        child: Padding(
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
       child: Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -35,18 +37,15 @@ class JournalEntry extends StatelessWidget {
         //   centerTitle: true,
         // )
         Text(data.type.name.toUpperCase(), style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-        const SizedBox(height: 10),
         questionText,
         Container(
-          color: Color(0xFFFFFFFF),
-          width: double.infinity, child: Padding(
-      padding: const EdgeInsets.fromLTRB(12, 12, 12, 12), child: Text(data.name, style: TextStyle(fontSize: 16))))
+          width: double.infinity, child: Text(data.name, style: TextStyle(fontSize: 16))),
       ],
-    )),
+    ))
+    ),
   );
     
     return InkWell(
-      
       onTap: () => showDialog(
         context: context,
         builder: (BuildContext context) => entryInfo(),
@@ -58,11 +57,11 @@ class JournalEntry extends StatelessWidget {
           height: 50,
           decoration: BoxDecoration(border: Border.all(
               color: Theme.of(context).colorScheme.inversePrimary,
-              width: 2
+              width: 4
           )),
           padding: const EdgeInsetsDirectional.symmetric(
-            horizontal: 12,
-            vertical: 12
+            horizontal: 8,
+            vertical: 8
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
