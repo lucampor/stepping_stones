@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stepping_stones/journaling/data.dart';
 import 'package:stepping_stones/journaling/entry_type.dart';
+import 'package:stepping_stones/journaling/new_journal.dart';
 import 'package:stepping_stones/journaling/list.dart';
 import 'package:stepping_stones/objectives/model.dart';
 import 'package:stepping_stones/stones/list.dart';
@@ -152,6 +153,12 @@ class _ObjectivePageState extends State<ObjectivePage> {
 
     return FloatingActionButton.extended(
       onPressed: (){
+        isJournal(widget.current) ? 
+        Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const JournalPage()))
+        : 
+        Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const JournalPage()));
       },
       backgroundColor: Colors.lightBlue,
       label: Row(

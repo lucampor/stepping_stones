@@ -18,7 +18,7 @@ class JournalEntry extends StatelessWidget {
         fontSize: 16,
         fontWeight: FontWeight.bold,
       ))) 
-      : const SizedBox(height: 10);
+      : const SizedBox(height: 4);
 
     Dialog entryInfo() => Dialog(
     backgroundColor: Color(0xFFFFFFFF),
