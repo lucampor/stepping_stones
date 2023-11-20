@@ -6,53 +6,94 @@ class JournalEntry extends StatelessWidget {
 
   final JournalEntryData data;
 
+  @override
+  Widget build(BuildContext context) {
+    
+    var questionText = (data.question != null) ? 
+      Padding(
+        padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+        child: Text(
+        data.question.toString(), 
+        style: const TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
+      ))) 
+      : const SizedBox(height: 10);
 
-  Dialog entryInfo() => Dialog(
-    child: Column(
+    Dialog entryInfo() => Dialog(
+    backgroundColor: Color(0xFFFFFFFF),
+    shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(4),),
+    child: Padding(
+      padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
+      child: Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        AppBar(
-          title: Text(data.name),
-          centerTitle: true,
-        )
+        // AppBar(
+        //   title: Text(data.name),
+        //   centerTitle: true,
+        // )
+        Text(data.type.name.toUpperCase(), style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        const SizedBox(height: 10),
+        questionText,
+        Container(
+          color: Color(0xFFFFFFFF),
+          width: double.infinity, child: Padding(
+      padding: const EdgeInsets.fromLTRB(12, 12, 12, 12), child: Text(data.name, style: TextStyle(fontSize: 16))))
       ],
-    ),
+    )),
   );
-
-  @override
-  Widget build(BuildContext context) {
+    
     return InkWell(
+      
       onTap: () => showDialog(
         context: context,
         builder: (BuildContext context) => entryInfo(),
       ),
 
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(2),
         child: Container(
+          height: 50,
           decoration: BoxDecoration(border: Border.all(
               color: Theme.of(context).colorScheme.inversePrimary,
-              width: 8
+              width: 2
           )),
           padding: const EdgeInsetsDirectional.symmetric(
-            horizontal: 50,
-            vertical: 30
+            horizontal: 12,
+            vertical: 12
           ),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            
             children: [
-              Expanded(
+              Text(
+                data.type.name.toUpperCase(), 
+                style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+              )),
+              const SizedBox(width: 8),
+              Flexible(
+                child: new Container(
                 child: Text(
                   data.name,
+                  overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold
+                    fontSize: 14,
+                    fontWeight: FontWeight.normal
                   ),
                 ),
-              ),
-              const Icon(
-                Icons.arrow_forward_ios_rounded
-              )
+              )),
+              const SizedBox(width: 8),
+              const Text(
+                "View", 
+                style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.normal,
+                color: Colors.blue,
+              ))
             ],
           ),
         ),

@@ -52,11 +52,19 @@ class _GoalPageState extends State<GoalPage> {
       style: TextStyle(fontSize: 18),
     ));
 
-    var confidence = ObjectiveData("Improving confidence");
-    var selftalk = ObjectiveData("Working on my self-talk", journalEntries: [
-      JournalEntryData("Yesterday I wanted to fish a crab",
+    var confidence = ObjectiveData("Improving confidence", 
+    journalEntries: [
+      JournalEntryData("Checking Instagram all the time makes me feel worse about myself", 
+      question: "What type of content leads you to compare yourself to others?",
+          type: EntryType.reflection),
+      JournalEntryData("", question: "Is there proof your negative thoughts are true?",
+          type: EntryType.reflection)
+    ]);
+    var selftalk = ObjectiveData("Working on my self-talk", 
+    journalEntries: [
+      JournalEntryData("I caught myself using negative self-talk 3 times yesterday",
           type: EntryType.note),
-      JournalEntryData("Yesterday I wanted to hunt a moose",
+      JournalEntryData("It's hard to feel like my self-affirmations are true sometimes",
           type: EntryType.note)
     ]);
 
