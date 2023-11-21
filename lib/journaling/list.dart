@@ -21,7 +21,6 @@ class JournalList extends StatelessWidget {
               height: 20, color: Colors.white,
             );
           },
-
           itemCount: entries.length,
           itemBuilder: (context, index) {
             return JournalEntry(entries[index]);

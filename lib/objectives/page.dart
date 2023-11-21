@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:stepping_stones/journaling/data.dart';
 import 'package:stepping_stones/journaling/entry_type.dart';
+import 'package:stepping_stones/journaling/new_journal.dart';
 import 'package:stepping_stones/journaling/list.dart';
 import 'package:stepping_stones/objectives/model.dart';
+import 'package:stepping_stones/stones/data.dart';
 import 'package:stepping_stones/stones/list.dart';
 
 enum CurrentPage {
@@ -149,9 +151,65 @@ class _ObjectivePageState extends State<ObjectivePage> {
   FloatingActionButton addButton() {
     var newEntry = isJournal(widget.current) ? "Journal Entry" : "Stepping Stone";
     var newIcon = isJournal(widget.current) ? Icons.auto_stories : Icons.hive_outlined;
+    var newEntryMsg = "Add new $newEntry";
 
     return FloatingActionButton.extended(
       onPressed: (){
+        isJournal(widget.current) ? 
+        Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const JournalPage()))
+        : 
+        showDialog(context: context,
+          builder: (BuildContext context) {
+            var controller = TextEditingController();
+            void save() {
+              if (controller.text.isNotEmpty) {
+                widget.notifier.insertStone(SteppingStoneData(controller.text.toString()));
+                Navigator.pop(context);
+                // ScaffoldMessenger.of(context).showSnackBar(
+                //     const SnackBar(content: Text('Processing Data')),
+                // );
+              }
+            }
+            return Dialog(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  AppBar(title: Text(newEntryMsg),),
+                  SafeArea(
+                    minimum: const EdgeInsets.symmetric(
+                      vertical: 50,
+                      horizontal: 20
+                    ),
+                    child: Column(
+                      children: [
+                        TextFormField(
+                           controller: controller,
+                           onEditingComplete: save,
+                           maxLength: 50,
+                           autofocus: true,
+                           validator: (value) {
+                             if (value == null || value.isEmpty) {
+                               return "Please add something!";
+                             }
+                             return null;
+                           },
+                         ),
+                         Align(
+                           alignment: Alignment.bottomCenter,
+                           child: FloatingActionButton.extended(
+                             label: const Text("Add new stone!"),
+                             onPressed: save,
+                        ),
+                         ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
+        );
       },
       backgroundColor: Colors.lightBlue,
       label: Row(
