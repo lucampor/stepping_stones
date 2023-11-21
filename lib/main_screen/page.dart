@@ -109,4 +109,13 @@ class _GoalPageState extends State<GoalPage> {
       floatingActionButton: addButton,
     );
   }
+
+  // void goto() {
+  //   Navigator.push(
+  //       context,
+  //       MaterialPageRoute(
+  //         builder: (context) => const SecondRoute()
+  //       ),
+  //     );
+  // }
 }

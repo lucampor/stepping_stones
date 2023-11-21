@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-// import 'package:stepping_stones/main_screen/page.dart';
+import 'package:stepping_stones/main_screen/page.dart';
 import 'package:stepping_stones/tutorial/select_goal.dart';
 
 void main() {

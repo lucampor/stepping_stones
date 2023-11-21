@@ -13,7 +13,7 @@ class SteppingStoneList extends StatelessWidget {
     return ListenableBuilder(
       listenable: objectiveNotifier,
       builder: (context, snapshot) {
-        final tasks = objectiveNotifier.stones;
+        final tasks = objectiveNotifier.stones.reversed;
         return ListView.separated(
           separatorBuilder: (context, index) {
             const sep = 14;
