@@ -63,14 +63,52 @@ class _JournalPageState extends State<JournalPage> {
 
     return Scaffold(
         backgroundColor: const Color(0xFFFFFFFF),
+        bottomNavigationBar: BottomAppBar(
+      height: 100,
+      padding: const EdgeInsets.all(0.0),
+      child: Container(
+        color: Colors.amber,
+        child: InkWell(
+            onTap: () { Navigator.pop(context); },
+            child: const Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.local_florist,
+                  size: 40,
+                ),
+                Text("Finish new journal entry",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                ),
+              ],
+            ),
+          ),
+      ),
+    ),
+        appBar: AppBar(
+      backgroundColor:
+          Colors.lightBlue, //Theme.of(context).colorScheme.primary,
+      toolbarHeight: 70,
+      centerTitle: true,
+
+      title: const Center(
+        child: Text(
+          "New journal entry",
+          style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+        ),
+      ),
+    ),
         body: Padding(
             padding: const EdgeInsets.fromLTRB(12, 32, 12, 32),
             child: Scaffold(
       backgroundColor: const Color(0xFFFFFFFF),
       body: Column(
         children: <Widget>[
-          navButtons,
-          const SizedBox(height: 20),
+          //navButtons,
+          const SizedBox(height: 70),
           questionText,
           const SizedBox(height: 10),
           Card(
