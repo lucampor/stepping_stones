@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:stepping_stones/journaling/data.dart';
-import 'package:stepping_stones/journaling/entry_type.dart';
 import 'package:stepping_stones/objectives/data.dart';
 import 'package:stepping_stones/objectives/entry.dart';
 import 'package:stepping_stones/objectives/model.dart';

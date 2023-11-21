@@ -150,6 +150,7 @@ class _ObjectivePageState extends State<ObjectivePage> {
 
   FloatingActionButton addButton() {
     var newEntry = isJournal(widget.current) ? "Journal Entry" : "Stepping Stone";
+    String newEntryMsg = "Add new $newEntry";
     var newIcon = isJournal(widget.current) ? Icons.auto_stories : Icons.hive_outlined;
     var newEntryMsg = "Add new $newEntry";
 
@@ -217,7 +218,7 @@ class _ObjectivePageState extends State<ObjectivePage> {
           Icon(newIcon,
             size: 40,
           ),
-          Text("Add new\n$newEntry",
+          Text(newEntryMsg,
             style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold
