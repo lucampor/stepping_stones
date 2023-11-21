@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:stepping_stones/main_screen/page.dart';
+// import 'package:stepping_stones/main_screen/page.dart';
+import 'package:stepping_stones/tutorial/select_goal.dart';
 
 void main() {
   runApp(
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlueAccent),
         useMaterial3: true,
       ),
-      home: const GoalPage(),//const JournalPage("Improving confidence"),
+      home: const SelectGoal(false), //const GoalPage(), const JournalPage("Improving confidence"),
     );
   }
 }

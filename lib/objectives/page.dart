@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:stepping_stones/journaling/data.dart';
+import 'package:stepping_stones/journaling/entry_type.dart';
+import 'package:stepping_stones/journaling/new_journal.dart';
 import 'package:stepping_stones/journaling/list.dart';
 import 'package:stepping_stones/objectives/model.dart';
 import 'package:stepping_stones/stones/data.dart';
@@ -145,14 +148,18 @@ class _ObjectivePageState extends State<ObjectivePage> {
     );
   }
 
-  FloatingActionButton addButton(BuildContext context) {
+  FloatingActionButton addButton() {
     var newEntry = isJournal(widget.current) ? "Journal Entry" : "Stepping Stone";
     String newEntryMsg = "Add new $newEntry";
     var newIcon = isJournal(widget.current) ? Icons.auto_stories : Icons.hive_outlined;
+    var newEntryMsg = "Add new $newEntry";
 
     return FloatingActionButton.extended(
       onPressed: (){
-        // TODO Make dialog to add name of stepping stone (no need for other screens)
+        isJournal(widget.current) ? 
+        Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const JournalPage()))
+        : 
         showDialog(context: context,
           builder: (BuildContext context) {
             var controller = TextEditingController();
@@ -238,24 +245,22 @@ class _ObjectivePageState extends State<ObjectivePage> {
         appBar: appBar(),
         body: SafeArea(
           minimum: const EdgeInsets.symmetric(
-            vertical: 10,
+            vertical: 30,
             horizontal: 20,
           ),
           child: ListenableBuilder(
             listenable: widget.notifier,
             builder: (context, child) {
               var currentList = isJournal(widget.current) ? JournalList(widget.notifier) : SteppingStoneList(widget.notifier);
-              return Column(
+              return Stack(
                 children: [
-                  Expanded(
-                    child: Center(
-                      child: (widget.notifier.isEmpty(widget.current) ? emptyMessage : currentList)
-                    ),
-                  ),
-                  const Divider(height: 15, color: Colors.transparent),
                   Center(
-                      child: addButton(context)
+                    child: (widget.notifier.isEmpty(widget.current) ? emptyMessage : currentList)
                   ),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: addButton()
+                  )
                 ],
               );
             }
@@ -264,6 +269,7 @@ class _ObjectivePageState extends State<ObjectivePage> {
         //
         // add_task_sharp
 
+        // TODO Stretch buttons & add top padding
         bottomNavigationBar: bottomBar(),
     );
   }

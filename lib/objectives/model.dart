@@ -4,7 +4,6 @@ import 'package:stepping_stones/journaling/data.dart';
 import 'package:stepping_stones/objectives/data.dart';
 import 'package:stepping_stones/objectives/page.dart';
 import 'package:stepping_stones/stones/data.dart';
-import 'package:stepping_stones/stones/status.dart';
 
 class ObjectiveModel extends ChangeNotifier {
   ObjectiveModel(this._data);
