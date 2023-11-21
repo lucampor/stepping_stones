@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:stepping_stones/journaling/data.dart';
+import 'package:stepping_stones/journaling/entry_type.dart';
 import 'package:stepping_stones/objectives/data.dart';
 import 'package:stepping_stones/objectives/entry.dart';
 import 'package:stepping_stones/objectives/model.dart';
@@ -52,17 +54,17 @@ class _GoalPageState extends State<GoalPage> {
 
     var confidence = ObjectiveData("Improving confidence", 
     journalEntries: [
-      JournalEntryData("Checking Instagram all the time makes me feel worse about myself", 
+      const JournalEntryData("Checking Instagram all the time makes me feel worse about myself",
       question: "What type of content leads you to compare yourself to others?",
           type: EntryType.reflection),
-      JournalEntryData("", question: "Is there proof your negative thoughts are true?",
+      const JournalEntryData("", question: "Is there proof your negative thoughts are true?",
           type: EntryType.reflection)
     ]);
     var selftalk = ObjectiveData("Working on my self-talk", 
     journalEntries: [
-      JournalEntryData("I caught myself using negative self-talk 3 times yesterday",
+      const JournalEntryData("I caught myself using negative self-talk 3 times yesterday",
           type: EntryType.note),
-      JournalEntryData("It's hard to feel like my self-affirmations are true sometimes",
+      const JournalEntryData("It's hard to feel like my self-affirmations are true sometimes",
           type: EntryType.note)
     ]);
 

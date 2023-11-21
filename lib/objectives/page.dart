@@ -152,7 +152,6 @@ class _ObjectivePageState extends State<ObjectivePage> {
     var newEntry = isJournal(widget.current) ? "Journal Entry" : "Stepping Stone";
     String newEntryMsg = "Add new $newEntry";
     var newIcon = isJournal(widget.current) ? Icons.auto_stories : Icons.hive_outlined;
-    var newEntryMsg = "Add new $newEntry";
 
     return FloatingActionButton.extended(
       onPressed: (){
