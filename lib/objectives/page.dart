@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:stepping_stones/journaling/data.dart';
 import 'package:stepping_stones/journaling/entry_type.dart';
 import 'package:stepping_stones/journaling/new_journal.dart';
@@ -149,14 +148,13 @@ class _ObjectivePageState extends State<ObjectivePage> {
     );
   }
 
-  FloatingActionButton addButton(BuildContext context) {
+  FloatingActionButton addButton() {
     var newEntry = isJournal(widget.current) ? "Journal Entry" : "Stepping Stone";
     var newIcon = isJournal(widget.current) ? Icons.auto_stories : Icons.hive_outlined;
     var newEntryMsg = "Add new $newEntry";
 
     return FloatingActionButton.extended(
       onPressed: (){
-
         isJournal(widget.current) ? 
         Navigator.push(context,
           MaterialPageRoute(builder: (context) => const JournalPage()))
@@ -177,10 +175,10 @@ class _ObjectivePageState extends State<ObjectivePage> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  AppBar(title: const Text("Insert new Stepping Stone"),),
+                  AppBar(title: Text(newEntryMsg),),
                   SafeArea(
                     minimum: const EdgeInsets.symmetric(
-                      vertical: 5,
+                      vertical: 50,
                       horizontal: 20
                     ),
                     child: Column(
@@ -188,8 +186,7 @@ class _ObjectivePageState extends State<ObjectivePage> {
                         TextFormField(
                            controller: controller,
                            onEditingComplete: save,
-                           maxLength: 100,
-
+                           maxLength: 50,
                            autofocus: true,
                            validator: (value) {
                              if (value == null || value.isEmpty) {
@@ -247,24 +244,22 @@ class _ObjectivePageState extends State<ObjectivePage> {
         appBar: appBar(),
         body: SafeArea(
           minimum: const EdgeInsets.symmetric(
-            vertical: 10,
+            vertical: 30,
             horizontal: 20,
           ),
           child: ListenableBuilder(
             listenable: widget.notifier,
             builder: (context, child) {
               var currentList = isJournal(widget.current) ? JournalList(widget.notifier) : SteppingStoneList(widget.notifier);
-              return Column(
+              return Stack(
                 children: [
-                  Expanded(
-                    child: Center(
-                      child: (widget.notifier.isEmpty(widget.current) ? emptyMessage : currentList)
-                    ),
-                  ),
-                  const Divider(height: 15, color: Colors.transparent),
                   Center(
-                      child: addButton(context)
+                    child: (widget.notifier.isEmpty(widget.current) ? emptyMessage : currentList)
                   ),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: addButton()
+                  )
                 ],
               );
             }
@@ -273,6 +268,7 @@ class _ObjectivePageState extends State<ObjectivePage> {
         //
         // add_task_sharp
 
+        // TODO Stretch buttons & add top padding
         bottomNavigationBar: bottomBar(),
     );
   }
