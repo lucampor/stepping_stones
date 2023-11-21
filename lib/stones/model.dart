@@ -28,4 +28,11 @@ class SteppingStoneModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void changeStatus(StoneStatus? newStatus) {
+    if (newStatus != null) {
+      _data.status = newStatus;
+      notifyListeners();
+    }
+  }
+
 }

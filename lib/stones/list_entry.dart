@@ -40,7 +40,7 @@ class SteppingStoneEntry extends StatelessWidget {
                         fontSize: size
                       ),
                     ),
-                    Text(data.status.name,
+                    Text(data.status.label,
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         fontSize: size*(4/6)
