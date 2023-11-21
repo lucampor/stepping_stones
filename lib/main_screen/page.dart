@@ -14,51 +14,58 @@ class GoalPage extends StatefulWidget {
   State<GoalPage> createState() => _GoalPageState();
 }
 
-
 class _GoalPageState extends State<GoalPage> {
   @override
   Widget build(BuildContext context) {
     var appBar = AppBar(
-        backgroundColor: Colors.lightBlue,//Theme.of(context).colorScheme.primary,
-        toolbarHeight: 70,
-        centerTitle: true,
+      backgroundColor:
+          Colors.lightBlue, //Theme.of(context).colorScheme.primary,
+      toolbarHeight: 70,
+      centerTitle: true,
 
-        title: const Center(
-          child: Text(
-            "My goals",
-            style: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.bold
-            ),
-          ),
+      title: const Center(
+        child: Text(
+          "My goals",
+          style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
         ),
+      ),
     );
 
     var addButton = FloatingActionButton.large(
-      onPressed: (){print("Goal page");},
-      child: const Center(
-        child: Text("Add new goal",
-          style: TextStyle(
-            fontSize: 20,
+        onPressed: () {
+          print("Goal page");
+        },
+        child: const Center(
+          child: Text(
+            "Add new goal",
+            style: TextStyle(
+              fontSize: 20,
+            ),
+            softWrap: true,
+            textAlign: TextAlign.center,
           ),
-          softWrap: true,
-          textAlign: TextAlign.center,
-        ),
-      )
-    );
+        ));
 
-    var descriptiveText = const Center(child: Text(
-        "What would you like to work on today?",
-        style: TextStyle(
-          fontSize: 18
-        ),
+    var descriptiveText = const Center(
+        child: Text(
+      "What would you like to work on today?",
+      style: TextStyle(fontSize: 18),
     ));
 
-    var confidence = ObjectiveData("Improving confidence");
-    var selftalk = ObjectiveData("Working on my self-talk",
-      journalEntries: [
-        JournalEntryData("Yesterday I wanted to fish a crab", type: EntryType.note),
-        JournalEntryData("Yesterday I wanted to hunt a moose", type: EntryType.note)
+    var confidence = ObjectiveData("Improving confidence", 
+    journalEntries: [
+      JournalEntryData("Checking Instagram all the time makes me feel worse about myself", 
+      question: "What type of content leads you to compare yourself to others?",
+          type: EntryType.reflection),
+      JournalEntryData("", question: "Is there proof your negative thoughts are true?",
+          type: EntryType.reflection)
+    ]);
+    var selftalk = ObjectiveData("Working on my self-talk", 
+    journalEntries: [
+      JournalEntryData("I caught myself using negative self-talk 3 times yesterday",
+          type: EntryType.note),
+      JournalEntryData("It's hard to feel like my self-affirmations are true sometimes",
+          type: EntryType.note)
     ]);
 
     var pages = [
@@ -70,43 +77,35 @@ class _GoalPageState extends State<GoalPage> {
     Widget selectChild(List<ObjectiveData> list) {
       if (list.length <= 1) {
         return const Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Center(
-              child: Text(
-                "You don't have any goal. Create your first goal and start this journey!",
-                style: TextStyle(fontSize: 24)
-              )
-            )
-          ]
-        );
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                  child: Text(
+                      "You don't have any goal. Create your first goal and start this journey!",
+                      style: TextStyle(fontSize: 24)))
+            ]);
       } else {
         return ListView.separated(
-          separatorBuilder: (context, index) {
-            return const Divider(
-              height: 20, color: Colors.white,
-            );
-          },
-
-          itemCount: pages.length,
-          itemBuilder: (context, index) {
-            var model = ObjectiveModel(pages[index]);
-            return ObjectiveEntry(model);
-          }
-        );
-       }
+            separatorBuilder: (context, index) {
+              return const Divider(
+                height: 20,
+                color: Colors.white,
+              );
+            },
+            itemCount: pages.length,
+            itemBuilder: (context, index) {
+              var model = ObjectiveModel(pages[index]);
+              return ObjectiveEntry(model);
+            });
+      }
     }
 
     return Scaffold(
       appBar: appBar,
       //bottomNavigationBar: appBar,
       body: SafeArea(
-        minimum: const EdgeInsets.symmetric(
-          vertical: 5,
-          horizontal: 10
-        ),
-        child: selectChild(pages)
-      ),
+          minimum: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+          child: selectChild(pages)),
       floatingActionButton: addButton,
     );
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:stepping_stones/journaling/data.dart';
 import 'package:stepping_stones/journaling/entry_type.dart';
+import 'package:stepping_stones/journaling/new_journal.dart';
 import 'package:stepping_stones/journaling/list.dart';
 import 'package:stepping_stones/objectives/model.dart';
 import 'package:stepping_stones/stones/data.dart';
@@ -151,10 +152,15 @@ class _ObjectivePageState extends State<ObjectivePage> {
   FloatingActionButton addButton(BuildContext context) {
     var newEntry = isJournal(widget.current) ? "Journal Entry" : "Stepping Stone";
     var newIcon = isJournal(widget.current) ? Icons.auto_stories : Icons.hive_outlined;
+    var newEntryMsg = "Add new $newEntry";
 
     return FloatingActionButton.extended(
       onPressed: (){
-        // TODO Make dialog to add name of stepping stone (no need for other screens)
+
+        isJournal(widget.current) ? 
+        Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const JournalPage()))
+        : 
         showDialog(context: context,
           builder: (BuildContext context) {
             var controller = TextEditingController();
@@ -183,6 +189,7 @@ class _ObjectivePageState extends State<ObjectivePage> {
                            controller: controller,
                            onEditingComplete: save,
                            maxLength: 100,
+
                            autofocus: true,
                            validator: (value) {
                              if (value == null || value.isEmpty) {
