@@ -34,7 +34,7 @@ class _SelectGoalState extends State<SelectGoal> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const SelectStones()));
+                      builder: (context) => SelectStones(goals.where((g) => g.selected).map((e) => e.name).toList())));
             },
             child: const Center(
               child: Text(
