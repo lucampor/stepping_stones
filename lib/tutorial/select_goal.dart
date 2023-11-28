@@ -3,21 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:stepping_stones/tutorial/select_stones.dart';
 
 class SelectGoal extends StatefulWidget {
-  const SelectGoal(this.isSelected, {super.key});
-  final bool isSelected;
+  const SelectGoal({super.key});
 
   @override
   State<SelectGoal> createState() => _SelectGoalState();
 }
 
 class _SelectGoalState extends State<SelectGoal> {
-  late bool _isSelected = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _isSelected = widget.isSelected;
-  }
+  final goals = [
+    // "Improve confidence",
+    // "Improve self-talk",
+    "Create a Positive Mindset",
+    "Improve Social Skills",
+    "Reduce Rejection Sensitivity",
+    "Strengthen Self-Expression",
+    "Deepen Existing Relationships",
+    "Find Romance"
+  ].map((g) => Goal(g)).toList();
+  String? selected;
+  int prev = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +36,7 @@ class _SelectGoalState extends State<SelectGoal> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const SelectStones()));
+                      builder: (context) => GoalStones(selected ?? "")));//goals.where((g) => g.selected).map((e) => e.name).toList())));
             },
             child: const Center(
               child: Text(
@@ -45,17 +49,13 @@ class _SelectGoalState extends State<SelectGoal> {
               ),
             )));
 
-    var welcomeText = const Padding(
-        padding: EdgeInsets.fromLTRB(0, 12, 0, 20),
-        child: Center(
-            child: Text(
-          "Welcome to Stepping Stones!",
-          style: TextStyle(
-            fontWeight: FontWeight.w700,
-            fontSize: 18,
-            color: Colors.black,
-          ),
-        )));
+    var welcomeText = Text("Welcome to Stepping Stones!",
+      style: TextStyle(
+        fontWeight: FontWeight.w700,
+        fontSize: 18,
+        color: Colors.black,
+      ),
+    );
 
     var descriptiveText = const Padding(
         padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
@@ -78,85 +78,93 @@ class _SelectGoalState extends State<SelectGoal> {
           unselectedColor: Colors.black38,
         ));
 
-    var navButtons = Row(children: <Widget>[
-      Container(color: Colors.white, width: 90, height: 40),
-      const Spacer(),
-      nextButton,
-    ]);
-
-    int selectedOption = 0;
-
     return Scaffold(
-        backgroundColor: const Color(0xFFFFFFFF),
-        body: Padding(
-            padding: const EdgeInsets.fromLTRB(12, 32, 12, 32),
-            child: Scaffold(
-                backgroundColor: const Color(0xFFFFFFFF),
-                body: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    Column(children: <Widget>[
-                      welcomeText,
-                      descriptiveText,
-                      Card(
-                          color: Colors.lightBlue[50],
+      backgroundColor: const Color(0xFFFFFFFF),
+      appBar: AppBar(
+        title: welcomeText,
+        centerTitle: true,
+      ),
+      body:
+          SafeArea(
+            minimum: const EdgeInsets.all(10),
+            child: Column(
+              children: [
+                descriptiveText,
+                Expanded(
+                  child: ListView.separated(
+                    itemCount: goals.length,
+                    itemBuilder: (context, index) {
+                      var elems =
+                        [
+                          Expanded(
                           child: InkWell(
-                              hoverColor: Colors.transparent,
-                              splashColor: Colors.transparent,
-                              onTap: () {
-                                setState(() {
-                                  _isSelected = false;
-                                });
-                              },
-                              child: ListTile(
-                                title: const Text(
-                                  "Improving confidence",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16),
+                            onTap: ()=> setState((){
+                                selected = goals[index].name;
+                                goals[index].selected = true;
+                                if (prev != index) {
+                                  goals[prev].selected = false;
+                                }
+                                prev = index;
+                            }),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Container(
+                                decoration: BoxDecoration(border: Border.all(
+                                    color: Theme.of(context).colorScheme.inversePrimary,
+                                    width: 8
+                                )),
+                                padding: const EdgeInsetsDirectional.symmetric(
+                                  horizontal: 10,
+                                  vertical: 20
                                 ),
-                                trailing: !_isSelected
-                                    ? const Icon(Icons.check_circle)
-                                    : const Icon(Icons.circle),
-                              ))),
-                      Card(
-                          color: Colors.lightBlue[50],
-                          child: InkWell(
-                              hoverColor: Colors.transparent,
-                              splashColor: Colors.transparent,
-                              onTap: () {
-                                setState(() {
-                                  _isSelected = true;
-                                });
-                              },
-                              child: ListTile(
-                                title: const Text(
-                                  "Working on my self-talk",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16),
-                                ),
-                                trailing: _isSelected
-                                    ? const Icon(Icons.check_circle)
-                                    : const Icon(Icons.circle),
-                              ))),
-                    ]),
-                    Column(children: <Widget>[
-                      Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 0, 0, 12),
-                          child: navButtons),
-                      progressBar
-                    ])
+                                child: Text(goals[index].name),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const VerticalDivider(width: 30,),
+                      ];
+
+                      if (goals[index].selected) {
+                        elems = elems.reversed.toList();
+                      }
+
+                      return Row(children: elems);
+                    },
+                    separatorBuilder: (context, index) => const Divider(
+                      height: 10,
+                      color: Colors.transparent,
+                    ),
+                  ),
+                ),
+                Row(
+                  children: [
+                    const Spacer(),
+                    if (selected != null)//goals.where((g) => g.selected).toList().isNotEmpty)
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: nextButton,
+                    )
                   ],
-                ))));
+                )
+              ],
+            )
+          ),
+      bottomNavigationBar: progressBar,
+    );
   }
 }
 
+class Goal {
+  Goal(this.name, {this.selected = false});
+
+  String name;
+  bool selected;
+}
+
 // class GoalItem extends StatefulWidget {
-//   const GoalItem(this.goalText, this.state, {super.key});
-//   final String goalText;
-//   final bool state;
+//   const GoalItem(this.goal, {super.key});
+//   final Goal goal;
 
 //   @override
 //   State<GoalItem> createState() => _GoalItemState();
@@ -165,25 +173,54 @@ class _SelectGoalState extends State<SelectGoal> {
 // class _GoalItemState extends State<GoalItem> {
 //   @override
 //   Widget build(BuildContext context) {
-//     return Card(
-//         color: Colors.lightBlue[50],
+//     var elem = [
+//       Expanded(
 //         child: InkWell(
-//             hoverColor: Colors.transparent,
-//             splashColor: Colors.transparent,
-//             onTap: () {
-//               setState(() {
-//                 !widget.state;
-//               });
-//             },
-//             child: ListTile(
-//               title: Text(
-//                 widget.goalText,
-//                 style:
-//                     const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+//           onTap: ()=> setState((){widget.goal.selected = !widget.goal.selected;}),
+//           child: ClipRRect(
+//             borderRadius: BorderRadius.circular(10),
+//             child: Container(
+//               decoration: BoxDecoration(border: Border.all(
+//                   color: Theme.of(context).colorScheme.inversePrimary,
+//                   width: 8
+//               )),
+//               padding: const EdgeInsetsDirectional.symmetric(
+//                 horizontal: 10,
+//                 vertical: 20
 //               ),
-//               trailing: !widget.state
-//                   ? const Icon(Icons.check_circle)
-//                   : const Icon(Icons.circle),
-//             )));
+//               child: Text(widget.goal.name),
+//             ),
+//           ),
+//         ),
+//       ),
+//       const VerticalDivider(width: 30,),
+//     ];
+//     if (widget.goal.selected) {
+//       elem = elem.reversed.toList();
+//     }
+
+//     return Row(
+//       children: elem,
+//     );
+    // Card(
+    //     color: Colors.lightBlue[50],
+    //     child: InkWell(
+    //         hoverColor: Colors.transparent,
+    //         splashColor: Colors.transparent,
+    //         onTap: () {
+    //           setState(() {
+    //             !widget.state;
+    //           });
+    //         },
+    //         child: ListTile(
+    //           title: Text(
+    //             widget.goal,
+    //             style:
+    //                 const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+    //           ),
+    //           trailing: !widget.state
+    //               ? const Icon(Icons.check_circle)
+    //               : const Icon(Icons.circle),
+    //        )));
 //   }
 // }

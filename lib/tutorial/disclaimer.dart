@@ -1,34 +1,43 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
-import 'package:stepping_stones/tutorial/select_stones.dart';
+import 'package:stepping_stones/objectives/data.dart';
 import 'package:stepping_stones/main_screen/page.dart';
 
-class Disclaimer extends StatelessWidget {
-  const Disclaimer({super.key});
+class Disclaimer extends StatefulWidget {
+  const Disclaimer(this.goal, {super.key});
 
+  final ObjectiveData goal;
+
+  @override
+  State<Disclaimer> createState() => _DisclaimerState();
+}
+
+class _DisclaimerState extends State<Disclaimer> {
+  bool understood = false;
   @override
   Widget build(BuildContext context) {
     var disclaimerString =
         "Stepping Stones was created with the purpose of guiding and helping you to find and create your own path towards a better self. \n \nHowever, we are not professional therapists. \n \nIf you are struggling with a severe mental health issue, please seek professional assistance.";
 
-    var disclaimerText = Padding(
-        padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-        child: Center(
-            child: Text(disclaimerString,
-                style: const TextStyle(
-                  fontSize: 16,
-                  color: Colors.black,
-                ))));
+    var disclaimerText = Text(disclaimerString,
+      textAlign: TextAlign.center,
+      style: const TextStyle(
+        fontSize: 20,
+        color: Colors.black,
+      )
+    );
 
-    var headingText = const Padding(
-        padding: EdgeInsets.fromLTRB(0, 12, 0, 0),
-        child: Center(
-            child: Text("WE CARE ABOUT YOUR MENTAL HEALTH",
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.black,
-                ))));
+    var headingText = const Text("WE CARE ABOUT\nYOUR MENTAL HEALTH",
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontSize: 30,
+        fontWeight: FontWeight.w700,
+        color: Colors.black,
+        overflow: TextOverflow.clip
+      )
+    );
 
     var progressBar = const Padding(
         padding: EdgeInsets.fromLTRB(12, 0, 12, 0),
@@ -70,7 +79,7 @@ class Disclaimer extends StatelessWidget {
             ),
             onPressed: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const GoalPage()));
+                  MaterialPageRoute(builder: (context) => GoalPage([widget.goal])));
             },
             child: const Center(
               child: Text(
@@ -83,34 +92,57 @@ class Disclaimer extends StatelessWidget {
               ),
             )));
 
+    var understand = Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Checkbox(
+          value: understood,
+          onChanged: (b) {setState(() {
+                understood = b ??= false;
+              }
+            );
+          }
+        ),
+        InkWell(
+          onTap: () { setState(() {
+            understood = !understood;
+          }); },
+          splashColor: Colors.transparent,
+          focusColor: Colors.transparent,
+          hoverColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          child: Text("I understand",
+            style: TextStyle(fontSize: 24),),
+        )
+      ],
+    );
+
     var navButtons = Row(children: <Widget>[
       backButton,
       const Spacer(),
-      finishButton,
+      if (understood)
+        finishButton,
     ]);
 
     return Scaffold(
         backgroundColor: const Color(0xFFFFFFFF),
-        body: Padding(
-            padding: const EdgeInsets.fromLTRB(12, 32, 12, 32),
-            child: Scaffold(
-                backgroundColor: const Color(0xFFFFFFFF),
-                body: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    Column(children: <Widget>[
-                      headingText,
-                      disclaimerText,
-                    ]),
-                    const SteppingStoneItem("center", "I understand"),
-                    Column(children: <Widget>[
-                      Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 0, 0, 12),
-                          child: navButtons),
-                      progressBar
-                    ])
-                  ],
-                ))));
+        appBar: AppBar(
+          toolbarHeight: 140,
+          title: headingText,
+          automaticallyImplyLeading: false,
+        ),
+        bottomNavigationBar: progressBar,
+        body: SafeArea(
+          minimum: const EdgeInsets.all(10),
+          child: Column(
+            children: [
+              Expanded(child: disclaimerText),
+              understand,
+              Divider(height: 30, color: Colors.transparent,),
+              navButtons
+            ],
+          ),
+        ),
+    );
   }
 }

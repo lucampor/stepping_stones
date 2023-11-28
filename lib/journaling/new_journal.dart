@@ -11,7 +11,7 @@ class _JournalPageState extends State<JournalPage> {
 
   @override
   Widget build(BuildContext context) {
-    var questionText = const Text("Are you a good friend to yourself?",
+    var questionText = const Text("<journal question>",//Are you a good friend to yourself?",
     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold));
 
     var backButton = SizedBox(
@@ -36,8 +36,6 @@ class _JournalPageState extends State<JournalPage> {
             )));
 
     var saveButton = SizedBox(
-        width: 90,
-        height: 40,
         child: OutlinedButton(
             style: OutlinedButton.styleFrom(
               foregroundColor: Colors.blue,
@@ -74,13 +72,13 @@ class _JournalPageState extends State<JournalPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(Icons.local_florist,
-                  size: 40,
+                  size: 30,
                 ),
                 Text("Finish new journal entry",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 20,
+                    fontSize: 15,
                   ),
                 ),
               ],
@@ -97,18 +95,13 @@ class _JournalPageState extends State<JournalPage> {
       title: const Center(
         child: Text(
           "New journal entry",
-          style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
       ),
     ),
-        body: Padding(
-            padding: const EdgeInsets.fromLTRB(12, 32, 12, 32),
-            child: Scaffold(
-      backgroundColor: const Color(0xFFFFFFFF),
-      body: Column(
+        body: Column(
         children: <Widget>[
           //navButtons,
-          const SizedBox(height: 70),
           questionText,
           const SizedBox(height: 10),
           Card(
@@ -116,14 +109,13 @@ class _JournalPageState extends State<JournalPage> {
             child: Padding(
               padding: EdgeInsets.all(20.0),
               child: TextField(
-                maxLines: 15, //or null 
+                maxLines: 15, //or null
                 decoration: InputDecoration.collapsed(hintText: "Enter your text here",
                 filled: false),
               ),
             )
           ),
         ],
-      )
-    )));
+      ));
   }
 }
