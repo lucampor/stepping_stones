@@ -81,7 +81,7 @@ class _SteppingStonePageState extends State<SteppingStonePage> {
                 softWrap: true,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
-                  fontSize: 30,
+                  fontSize: 19,
                   fontWeight: FontWeight.bold
                 ),
               ),
@@ -101,7 +101,7 @@ class _SteppingStonePageState extends State<SteppingStonePage> {
                       alignment: Alignment.center,
                       elevation: 100,
                       style: const TextStyle(
-                        fontSize: 25,
+                        fontSize: 15,
                         color: Colors.black
                       ),
                       items: StoneStatus.values.map((status) => DropdownMenuItem(value: status,
@@ -127,11 +127,11 @@ class _SteppingStonePageState extends State<SteppingStonePage> {
                           label: Row(
                             children: const [
                               Icon(Icons.auto_stories,
-                                size: 40,
+                                size: 20,
                               ),
                               Text("Add new Journal Entry",
                                 style: TextStyle(
-                                  fontSize: 20,
+                                  fontSize: 15,
                                   fontWeight: FontWeight.bold
                                 ),
                                 textAlign: TextAlign.center,
@@ -165,7 +165,7 @@ class _SteppingStonePageState extends State<SteppingStonePage> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 20,
+                          fontSize: 17,
                         ),
                       ),
                     ],

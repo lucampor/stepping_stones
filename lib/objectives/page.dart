@@ -74,7 +74,7 @@ class _ObjectivePageState extends State<ObjectivePage> {
                         style: const TextStyle(fontWeight: FontWeight.bold)
                     )],
                     style: const TextStyle(
-                      fontSize: 30,
+                      fontSize: 25,
                       color: Colors.black
                     ),
                   )
@@ -105,13 +105,13 @@ class _ObjectivePageState extends State<ObjectivePage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(Icons.local_florist,
-                        size: 40,
+                        size: 30,
                       ),
                       Text("Go back\nto your Goals",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 20,
+                          fontSize: 15,
                         ),
                       ),
                     ],
@@ -129,14 +129,14 @@ class _ObjectivePageState extends State<ObjectivePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(switchIcon,
-                    size: 40,
+                    size: 30,
                   ),
                   Text(switchTo,
                     textAlign: TextAlign.center,
                     textDirection: TextDirection.rtl,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 20,
+                      fontSize: 15,
                     ),
                   ),
                 ],
@@ -215,11 +215,11 @@ class _ObjectivePageState extends State<ObjectivePage> {
       label: Row(
         children: [
           Icon(newIcon,
-            size: 40,
+            size: 30,
           ),
           Text(newEntryMsg,
             style: const TextStyle(
-              fontSize: 20,
+              fontSize: 15,
               fontWeight: FontWeight.bold
             ),
             textAlign: TextAlign.center,
@@ -235,7 +235,7 @@ class _ObjectivePageState extends State<ObjectivePage> {
     var emptyMessage = Text("You have no $currentEmptyMsg yet!\nLet's add the first one!",
       textAlign: TextAlign.center,
       style: const TextStyle(
-        fontSize: 30
+        fontSize: 22
       ),
     );
 

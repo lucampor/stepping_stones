@@ -11,8 +11,8 @@ class SelectGoal extends StatefulWidget {
 
 class _SelectGoalState extends State<SelectGoal> {
   final goals = [
-    "Improve confidence",
-    "Improve self-talk",
+    // "Improve confidence",
+    // "Improve self-talk",
     "Create a Positive Mindset",
     "Improve Social Skills",
     "Reduce Rejection Sensitivity",
@@ -20,6 +20,8 @@ class _SelectGoalState extends State<SelectGoal> {
     "Deepen Existing Relationships",
     "Find Romance"
   ].map((g) => Goal(g)).toList();
+  String? selected;
+  int prev = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,7 @@ class _SelectGoalState extends State<SelectGoal> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => SelectStones(goals.where((g) => g.selected).map((e) => e.name).toList())));
+                      builder: (context) => GoalStones(selected ?? "")));//goals.where((g) => g.selected).map((e) => e.name).toList())));
             },
             child: const Center(
               child: Text(
@@ -82,56 +84,72 @@ class _SelectGoalState extends State<SelectGoal> {
         title: welcomeText,
         centerTitle: true,
       ),
-      body: Stack(
-        children: [
+      body:
           SafeArea(
             minimum: const EdgeInsets.all(10),
-            child: ListView.separated(
-              itemCount: goals.length,
-              itemBuilder: (context, index) {
-                var elems =
-                  [
-                    Expanded(
-                    child: InkWell(
-                      onTap: ()=> setState((){goals[index].selected = !goals[index].selected;}),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Container(
-                          decoration: BoxDecoration(border: Border.all(
-                              color: Theme.of(context).colorScheme.inversePrimary,
-                              width: 8
-                          )),
-                          padding: const EdgeInsetsDirectional.symmetric(
-                            horizontal: 10,
-                            vertical: 20
+            child: Column(
+              children: [
+                descriptiveText,
+                Expanded(
+                  child: ListView.separated(
+                    itemCount: goals.length,
+                    itemBuilder: (context, index) {
+                      var elems =
+                        [
+                          Expanded(
+                          child: InkWell(
+                            onTap: ()=> setState((){
+                                selected = goals[index].name;
+                                goals[index].selected = true;
+                                if (prev != index) {
+                                  goals[prev].selected = false;
+                                }
+                                prev = index;
+                            }),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Container(
+                                decoration: BoxDecoration(border: Border.all(
+                                    color: Theme.of(context).colorScheme.inversePrimary,
+                                    width: 8
+                                )),
+                                padding: const EdgeInsetsDirectional.symmetric(
+                                  horizontal: 10,
+                                  vertical: 20
+                                ),
+                                child: Text(goals[index].name),
+                              ),
+                            ),
                           ),
-                          child: Text(goals[index].name),
                         ),
-                      ),
+                        const VerticalDivider(width: 30,),
+                      ];
+
+                      if (goals[index].selected) {
+                        elems = elems.reversed.toList();
+                      }
+
+                      return Row(children: elems);
+                    },
+                    separatorBuilder: (context, index) => const Divider(
+                      height: 10,
+                      color: Colors.transparent,
                     ),
                   ),
-                  const VerticalDivider(width: 30,),
-                ];
-
-                if (goals[index].selected) {
-                  elems = elems.reversed.toList();
-                }
-
-                return Row(children: elems);
-              },
-              separatorBuilder: (context, index) => const Divider(
-                height: 10,
-                color: Colors.transparent,
-              ),
+                ),
+                Row(
+                  children: [
+                    const Spacer(),
+                    if (selected != null)//goals.where((g) => g.selected).toList().isNotEmpty)
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: nextButton,
+                    )
+                  ],
+                )
+              ],
             )
           ),
-          if (goals.where((g) => g.selected).toList().isNotEmpty)
-          Align(
-            child: nextButton,
-            alignment: Alignment.bottomRight,
-          )
-        ],
-      ),
       bottomNavigationBar: progressBar,
     );
   }

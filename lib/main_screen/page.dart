@@ -6,21 +6,31 @@ import 'package:stepping_stones/objectives/entry.dart';
 import 'package:stepping_stones/objectives/model.dart';
 
 class GoalPage extends StatefulWidget {
-  const GoalPage({super.key});
+  const GoalPage(this.objectives, {super.key});
 
-  //final String title;
+  final List<ObjectiveData> objectives;
 
   @override
   State<GoalPage> createState() => _GoalPageState();
 }
 
 class _GoalPageState extends State<GoalPage> {
+  List<ObjectiveData> _goals = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _goals = widget.objectives;
+    print(_goals);
+  }
+
   @override
   Widget build(BuildContext context) {
     var appBar = AppBar(
       backgroundColor:
           Colors.lightBlue, //Theme.of(context).colorScheme.primary,
       toolbarHeight: 70,
+      automaticallyImplyLeading: false,
       centerTitle: true,
 
       title: const Center(
@@ -52,39 +62,20 @@ class _GoalPageState extends State<GoalPage> {
       style: TextStyle(fontSize: 18),
     ));
 
-    var confidence = ObjectiveData("Improving confidence", 
-    journalEntries: [
-      const JournalEntryData("Checking Instagram all the time makes me feel worse about myself",
-      question: "What type of content leads you to compare yourself to others?",
-          type: EntryType.reflection),
-      const JournalEntryData("", question: "Is there proof your negative thoughts are true?",
-          type: EntryType.reflection)
-    ]);
-    var selftalk = ObjectiveData("Working on my self-talk", 
-    journalEntries: [
-      const JournalEntryData("I caught myself using negative self-talk 3 times yesterday",
-          type: EntryType.note),
-      const JournalEntryData("It's hard to feel like my self-affirmations are true sometimes",
-          type: EntryType.note)
-    ]);
-
-    var pages = [
-      //descriptiveText,
-      confidence,
-      selftalk
-    ];
-
     Widget selectChild(List<ObjectiveData> list) {
-      if (list.length <= 1) {
+      if (list.isEmpty) {
         return const Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Center(
                   child: Text(
                       "You don't have any goal. Create your first goal and start this journey!",
-                      style: TextStyle(fontSize: 24)))
+                      style: TextStyle(fontSize: 20),
+                      textAlign: TextAlign.center,
+                  ))
             ]);
       } else {
+        print(_goals);
         return ListView.separated(
             separatorBuilder: (context, index) {
               return const Divider(
@@ -92,9 +83,9 @@ class _GoalPageState extends State<GoalPage> {
                 color: Colors.white,
               );
             },
-            itemCount: pages.length,
+            itemCount: _goals.length,
             itemBuilder: (context, index) {
-              var model = ObjectiveModel(pages[index]);
+              var model = ObjectiveModel(_goals[index]);
               return ObjectiveEntry(model);
             });
       }
@@ -105,7 +96,7 @@ class _GoalPageState extends State<GoalPage> {
       //bottomNavigationBar: appBar,
       body: SafeArea(
           minimum: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-          child: selectChild(pages)),
+          child: selectChild(_goals)),
       floatingActionButton: addButton,
     );
   }
