@@ -24,6 +24,7 @@ class _SteppingStonePageState extends State<SteppingStonePage> {
         return Scaffold(
           appBar: AppBar(
             automaticallyImplyLeading: true,
+            //leading: InkWell(Text),
             toolbarHeight: 100,
             centerTitle: true,
             backgroundColor: Colors.lightBlue,//Theme.of(context).colorScheme.tertiary,
@@ -93,29 +94,45 @@ class _SteppingStonePageState extends State<SteppingStonePage> {
             child: Column(
               children: [
                 Center(
-                  child: DropdownButton(
-                      value: status,
-                      icon: const Text(""),
-                      iconSize: 0,
-                      underline: const Text(""),
-                      alignment: Alignment.center,
-                      elevation: 100,
-                      style: const TextStyle(
-                        fontSize: 15,
-                        color: Colors.black
-                      ),
-                      items: StoneStatus.values.map((status) => DropdownMenuItem(value: status,
-                          child: Row(
-                            children: [
-                              Icon(status.icon, color: status.color,),
-                              const VerticalDivider(width: 20, color: Colors.transparent,),
-                              Text(status.label),
-                            ],
-                          )
-                        )
-                      ).toList(),
-                      onChanged: (selected) => widget.notifier.changeStatus(selected),
+                  child: SizedBox(
+                    width: 300,
+                    child: Column(
+                      children: [
+                        const Text("Current status:",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(9.0),
+                          child: DropdownButton(
+                              value: status,
+                              icon: const Text(""),
+                              iconSize: 0,
+                              underline: const Text(""),
+                              alignment: Alignment.center,
+                              elevation: 100,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.black
+                              ),
+                              items: StoneStatus.values.map((status) => DropdownMenuItem(value: status,
+                                  child: Row(
+                                    children: [
+                                      Icon(status.icon, color: status.color,),
+                                      const VerticalDivider(width: 20, color: Colors.transparent,),
+                                      Text(status.label),
+                                    ],
+                                  )
+                                )
+                              ).toList(),
+                              onChanged: (selected) => widget.notifier.changeStatus(selected),
+                            ),
+                        ),
+                      ],
                     ),
+                  ),
                 ),
                 Expanded(
                   child: Stack(
@@ -124,8 +141,8 @@ class _SteppingStonePageState extends State<SteppingStonePage> {
                         alignment: Alignment.bottomCenter,
                         child: FloatingActionButton.extended(
                           backgroundColor: Colors.lightBlue,
-                          label: Row(
-                            children: const [
+                          label: const Row(
+                            children: [
                               Icon(Icons.auto_stories,
                                 size: 20,
                               ),
@@ -147,32 +164,32 @@ class _SteppingStonePageState extends State<SteppingStonePage> {
               ],
             )
           ),
-          bottomNavigationBar: BottomAppBar(
-            height: 100,
-            padding: const EdgeInsets.all(0.0),
-            child:
-              Container(
-                color: Colors.amber,
-                child: InkWell(
-                  onTap: () { Navigator.pop(context); },
-                  child: const Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.hive_outlined,
-                        size: 40,
-                      ),
-                      Text("Go back to\n\"Improving Self-Talk\"",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 17,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-          ),
+          // bottomNavigationBar: BottomAppBar(
+          //   height: 100,
+          //   padding: const EdgeInsets.all(0.0),
+          //   child:
+          //     Container(
+          //       color: Colors.amber,
+          //       child: InkWell(
+          //         onTap: () { Navigator.pop(context); },
+          //         child: const Column(
+          //           mainAxisAlignment: MainAxisAlignment.center,
+          //           children: [
+          //             Icon(Icons.hive_outlined,
+          //               size: 40,
+          //             ),
+          //             Text("Go back to\n\",
+          //               textAlign: TextAlign.center,
+          //               style: TextStyle(
+          //                 fontWeight: FontWeight.bold,
+          //                 fontSize: 17,
+          //               ),
+          //             ),
+          //           ],
+          //         ),
+          //       ),
+          //     ),
+          // ),
         );
       }
     );

@@ -52,7 +52,6 @@ class _ObjectivePageState extends State<ObjectivePage> {
     var section = isJournal(widget.current) ? "Journal of:\n" : "Stepping Stones of:\n";
 
     return AppBar(
-          automaticallyImplyLeading: false,
           toolbarHeight: 100,
           centerTitle: true,
           backgroundColor: Colors.lightBlue,//Theme.of(context).colorScheme.tertiary,
@@ -96,29 +95,29 @@ class _ObjectivePageState extends State<ObjectivePage> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Expanded(
-            child: Container(
-              color: Colors.amber,
-              child: InkWell(
-                  onTap: () { Navigator.pop(context); },
-                  child: const Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.local_florist,
-                        size: 30,
-                      ),
-                      Text("Go back\nto your Goals",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-            ),
-          ),
+          // Expanded(
+          //   child: Container(
+          //     color: Colors.amber,
+          //     child: InkWell(
+          //         onTap: () { Navigator.pop(context); },
+          //         child: const Column(
+          //           mainAxisAlignment: MainAxisAlignment.center,
+          //           children: [
+          //             Icon(Icons.local_florist,
+          //               size: 30,
+          //             ),
+          //             Text("Go back\nto your Goals",
+          //               textAlign: TextAlign.center,
+          //               style: TextStyle(
+          //                 fontWeight: FontWeight.bold,
+          //                 fontSize: 15,
+          //               ),
+          //             ),
+          //           ],
+          //         ),
+          //       ),
+          //   ),
+          // ),
           Expanded(child: InkWell(
               onTap: () {Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) =>

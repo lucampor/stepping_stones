@@ -1,5 +1,6 @@
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:stepping_stones/main_screen/page.dart';
 import 'package:stepping_stones/objectives/data.dart';
 import 'package:stepping_stones/stones/data.dart';
 import 'package:stepping_stones/stones/list_entry.dart';
@@ -75,8 +76,10 @@ const steppingStones = {
 // }
 
 class GoalStones extends StatefulWidget {
-  GoalStones(this.goal, {super.key});
+  GoalStones(this.goal, {super.key, this.tutorial=true, this.existing});
   final String goal;
+  final bool tutorial;
+  final List<ObjectiveData>? existing;
   //final (int, int) remaining;
   @override
   State<GoalStones> createState() => _GoalStonesState();
@@ -114,10 +117,10 @@ class _GoalStonesState extends State<GoalStones> {
                   )))
         ]));
 
-    var progressBar = const Padding(
-        padding: EdgeInsets.fromLTRB(12, 0, 12, 0),
+    var progressBar = Padding(
+        padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
         child: StepProgressIndicator(
-          totalSteps: 3,
+          totalSteps: (widget.tutorial ? 3 : 2),
           currentStep: 2,
           size: 15,
           selectedColor: Colors.lightBlue,
@@ -125,8 +128,12 @@ class _GoalStonesState extends State<GoalStones> {
         ));
 
 
-    var disclaimer = Disclaimer(ObjectiveData(widget.goal, steppingStones: _stones.where((e) => e.selected).map((e) => SteppingStoneData(e.name)).toList()));
-    var nextButton = _stones.where((s) => s.selected).isNotEmpty ? NavButton.next(NavType.next, next: disclaimer,) : NavButton.next(NavType.skip, next: disclaimer);
+    var newGoal = ObjectiveData(widget.goal, steppingStones: _stones.where((e) => e.selected).map((e) => SteppingStoneData(e.name)).toList());
+    var disclaimer = Disclaimer(newGoal);
+    var finalGoals = (widget.existing ?? []) + [newGoal];
+    var next = widget.tutorial ? disclaimer : GoalPage(finalGoals);
+    var navType = widget.tutorial ? NavType.next : NavType.finish;
+    var nextButton = _stones.where((s) => s.selected).isNotEmpty ? NavButton.next(navType, next: next,) : NavButton.next(NavType.skip, next: next);
     var navButtons = Row(children: <Widget>[
       const NavButton.back(NavType.back),
       const Spacer(),
@@ -183,6 +190,7 @@ class _GoalStonesState extends State<GoalStones> {
 enum NavType {
   back,
   next,
+  finish,
   skip
 }
 
@@ -208,11 +216,12 @@ class NavButton extends StatelessWidget {
     String val = switch (type) {
       NavType.back => "Back",
       NavType.next => "Next",
+      NavType.finish => "Finish",
       NavType.skip => "Skip",
     };
 
     return SizedBox(
-        width: 90,
+        width: 94,
         height: 40,
         child: OutlinedButton(
             onPressed: () {

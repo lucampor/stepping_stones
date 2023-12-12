@@ -4,6 +4,7 @@ import 'package:stepping_stones/journaling/entry_type.dart';
 import 'package:stepping_stones/objectives/data.dart';
 import 'package:stepping_stones/objectives/entry.dart';
 import 'package:stepping_stones/objectives/model.dart';
+import 'package:stepping_stones/tutorial/select_goal.dart';
 
 class GoalPage extends StatefulWidget {
   const GoalPage(this.objectives, {super.key});
@@ -42,8 +43,14 @@ class _GoalPageState extends State<GoalPage> {
     );
 
     var addButton = FloatingActionButton.large(
-        onPressed: () {
-          print("Goal page");
+        onPressed: ()
+        {
+          var existing = _goals.map((e) => e.name);
+          var suggestions = GOALS.where((gStr) => !existing.contains(gStr)).toList();
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => SelectGoal(suggestions, tutorial: false, existing: _goals,)));//goals.where((g) => g.selected).map((e) => e.name).toList())));
         },
         child: const Center(
           child: Text(

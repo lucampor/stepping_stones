@@ -1,25 +1,36 @@
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:stepping_stones/objectives/data.dart';
 import 'package:stepping_stones/tutorial/select_stones.dart';
 
-class SelectGoal extends StatefulWidget {
-  const SelectGoal({super.key});
-
-  @override
-  State<SelectGoal> createState() => _SelectGoalState();
-}
-
-class _SelectGoalState extends State<SelectGoal> {
-  final goals = [
-    // "Improve confidence",
-    // "Improve self-talk",
+const GOALS =  [
     "Create a Positive Mindset",
     "Improve Social Skills",
     "Reduce Rejection Sensitivity",
     "Strengthen Self-Expression",
     "Deepen Existing Relationships",
     "Find Romance"
-  ].map((g) => Goal(g)).toList();
+];
+
+class SelectGoal extends StatefulWidget {
+  const SelectGoal(this.goals, {super.key, this.tutorial = true, this.existing});
+
+  final List<String> goals;
+  final bool tutorial;
+  final List<ObjectiveData>? existing;
+
+  @override
+  State<SelectGoal> createState() => _SelectGoalState();
+}
+
+class _SelectGoalState extends State<SelectGoal> {
+  List<Goal> goals = [];
+  @override
+  void initState() {
+    // TODO: implement initState
+    goals = widget.goals.map((g) => Goal(g)).toList();
+    super.initState();
+  }
   String? selected;
   int prev = 0;
 
@@ -36,7 +47,7 @@ class _SelectGoalState extends State<SelectGoal> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => GoalStones(selected ?? "")));//goals.where((g) => g.selected).map((e) => e.name).toList())));
+                      builder: (context) => GoalStones(selected ?? "", existing: widget.existing, tutorial: widget.tutorial,)));//goals.where((g) => g.selected).map((e) => e.name).toList())));
             },
             child: const Center(
               child: Text(
@@ -49,7 +60,8 @@ class _SelectGoalState extends State<SelectGoal> {
               ),
             )));
 
-    var welcomeText = Text("Welcome to Stepping Stones!",
+    var title = widget.tutorial ? "Welcome to Stepping Stones!" : "Adding new goal";
+    var welcomeText = Text(title,
       style: TextStyle(
         fontWeight: FontWeight.w700,
         fontSize: 18,
@@ -68,10 +80,10 @@ class _SelectGoalState extends State<SelectGoal> {
           ),
         )));
 
-    var progressBar = const Padding(
-        padding: EdgeInsets.fromLTRB(0, 0, 12, 0),
+    var progressBar = Padding(
+        padding: const EdgeInsets.fromLTRB(0, 0, 12, 0),
         child: StepProgressIndicator(
-          totalSteps: 3,
+          totalSteps: (widget.tutorial ? 3 : 2),
           currentStep: 1,
           size: 15,
           selectedColor: Colors.lightBlue,
@@ -161,66 +173,3 @@ class Goal {
   String name;
   bool selected;
 }
-
-// class GoalItem extends StatefulWidget {
-//   const GoalItem(this.goal, {super.key});
-//   final Goal goal;
-
-//   @override
-//   State<GoalItem> createState() => _GoalItemState();
-// }
-
-// class _GoalItemState extends State<GoalItem> {
-//   @override
-//   Widget build(BuildContext context) {
-//     var elem = [
-//       Expanded(
-//         child: InkWell(
-//           onTap: ()=> setState((){widget.goal.selected = !widget.goal.selected;}),
-//           child: ClipRRect(
-//             borderRadius: BorderRadius.circular(10),
-//             child: Container(
-//               decoration: BoxDecoration(border: Border.all(
-//                   color: Theme.of(context).colorScheme.inversePrimary,
-//                   width: 8
-//               )),
-//               padding: const EdgeInsetsDirectional.symmetric(
-//                 horizontal: 10,
-//                 vertical: 20
-//               ),
-//               child: Text(widget.goal.name),
-//             ),
-//           ),
-//         ),
-//       ),
-//       const VerticalDivider(width: 30,),
-//     ];
-//     if (widget.goal.selected) {
-//       elem = elem.reversed.toList();
-//     }
-
-//     return Row(
-//       children: elem,
-//     );
-    // Card(
-    //     color: Colors.lightBlue[50],
-    //     child: InkWell(
-    //         hoverColor: Colors.transparent,
-    //         splashColor: Colors.transparent,
-    //         onTap: () {
-    //           setState(() {
-    //             !widget.state;
-    //           });
-    //         },
-    //         child: ListTile(
-    //           title: Text(
-    //             widget.goal,
-    //             style:
-    //                 const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-    //           ),
-    //           trailing: !widget.state
-    //               ? const Icon(Icons.check_circle)
-    //               : const Icon(Icons.circle),
-    //        )));
-//   }
-// }
