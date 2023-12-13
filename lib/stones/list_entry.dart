@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:stepping_stones/objectives/model.dart';
 import 'package:stepping_stones/stones/data.dart';
 import 'package:stepping_stones/stones/model.dart';
 import 'package:stepping_stones/stones/page.dart';
 import 'package:stepping_stones/stones/status.dart';
 
 class SteppingStoneEntry extends StatelessWidget {
-  const SteppingStoneEntry(this.data, {this.onTap, this.omitStatus = false, super.key});
+  const SteppingStoneEntry(this.data, {required this.parent, this.onTap, this.omitStatus = false, super.key});
 
   final SteppingStoneData data;
+  final ObjectiveModel parent;
   final Function? onTap;
   final bool omitStatus;
 
@@ -17,7 +19,7 @@ class SteppingStoneEntry extends StatelessWidget {
       onTap: () {onTap ??
         Navigator.push(context,
           MaterialPageRoute(builder: (BuildContext context) =>
-            SteppingStonePage(SteppingStoneModel(data))));},
+            SteppingStonePage(SteppingStoneModel(data, parent: parent))));},
       child: StoneRect(data.task, status: data.status, omitStatus: omitStatus),
     );
   }

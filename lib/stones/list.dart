@@ -44,7 +44,7 @@ class SteppingStoneList extends StatelessWidget {
 
           itemCount: tasks.length,
           itemBuilder: (context, index) {
-            return SteppingStoneEntry(tasks.reversed.elementAt(index));
+            return SteppingStoneEntry(tasks.reversed.elementAt(index), parent: objectiveNotifier,);
           },
           padding: const EdgeInsets.only(bottom: 40),
         );

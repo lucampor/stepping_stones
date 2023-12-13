@@ -129,6 +129,7 @@ class _DisclaimerState extends State<Disclaimer> {
         appBar: AppBar(
           toolbarHeight: 140,
           title: headingText,
+          centerTitle: true,
           automaticallyImplyLeading: false,
         ),
         bottomNavigationBar: progressBar,

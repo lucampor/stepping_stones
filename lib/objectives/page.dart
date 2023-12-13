@@ -157,6 +157,7 @@ class _ObjectivePageState extends State<ObjectivePage> {
         isJournal(widget.current) ? 
         Navigator.push(context,
           MaterialPageRoute(builder: (context) => const JournalPage()))
+        .then((_) => setState(() {}))
         : 
         showDialog(context: context,
           builder: (BuildContext context) {
