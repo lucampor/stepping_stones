@@ -23,7 +23,7 @@ class JournalList extends StatelessWidget {
           },
           itemCount: entries.length,
           itemBuilder: (context, index) {
-            return JournalEntry(entries[index]);
+            return JournalEntry(entries[index], parent: objectiveNotifier,);
           }
         );
       }

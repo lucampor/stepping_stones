@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:stepping_stones/journaling/data.dart';
 import 'package:stepping_stones/journaling/entry_type.dart';
-import 'package:stepping_stones/journaling/new_journal.dart';
+import 'package:stepping_stones/journaling/model.dart';
+import 'package:stepping_stones/journaling/page.dart';
 import 'package:stepping_stones/journaling/list.dart';
 import 'package:stepping_stones/objectives/model.dart';
 import 'package:stepping_stones/stones/data.dart';
@@ -156,9 +157,15 @@ class _ObjectivePageState extends State<ObjectivePage> {
       onPressed: (){
         isJournal(widget.current) ? 
         Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const JournalPage()))
-        .then((_) => setState(() {}))
-        : 
+          MaterialPageRoute(builder: (context) => JournalPage(
+              JournalModel(
+                JournalEntryData(widget.notifier.name,
+                  type: EntryType.reflection),
+                parent: widget.notifier)
+            )
+          )
+        )
+        :
         showDialog(context: context,
           builder: (BuildContext context) {
             var controller = TextEditingController();

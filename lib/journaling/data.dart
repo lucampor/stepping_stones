@@ -1,7 +1,7 @@
 import 'package:stepping_stones/journaling/entry_type.dart';
 
 class JournalEntryData {
-  const JournalEntryData(
+  JournalEntryData(
     this.name,
     {
       this.content,
@@ -9,8 +9,8 @@ class JournalEntryData {
       required this.type,
   });
 
-  final String name;
-  final EntryType type;
-  final String? content;
-  final String? question;
+  String name;
+  EntryType type;
+  String? content;
+  String? question;
 }

@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:stepping_stones/journaling/data.dart';
+import 'package:stepping_stones/journaling/model.dart';
+import 'package:stepping_stones/journaling/page.dart';
+import 'package:stepping_stones/objectives/model.dart';
 
 class JournalEntry extends StatelessWidget {
-  const JournalEntry(this.data, {super.key});
+  const JournalEntry(this.data, {required this.parent, super.key});
 
+  final ObjectiveModel parent;
   final JournalEntryData data;
 
   @override
@@ -24,7 +28,7 @@ class JournalEntry extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: Colors.lightBlue[50], 
-            borderRadius: BorderRadius.all(Radius.circular(20))
+            borderRadius: const BorderRadius.all(Radius.circular(20))
           ),
         child: Padding(
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
@@ -36,66 +40,49 @@ class JournalEntry extends StatelessWidget {
         //   title: Text(data.name),
         //   centerTitle: true,
         // )
-        Text(data.type.name.toUpperCase(), style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        Text(data.type.name.toUpperCase(), style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         questionText,
         Container(
-          width: double.infinity, child: Text(data.name, style: TextStyle(fontSize: 16))),
+          width: double.infinity, child: Text(data.name, style: const TextStyle(fontSize: 16))),
       ],
     ))
     ),
   );
     
     return InkWell(
-      onTap: () => showDialog(
-        context: context,
-        builder: (BuildContext context) => entryInfo(),
+      onTap: () => Navigator.push(context,
+        MaterialPageRoute(builder: (BuildContext context) => JournalPage(
+            JournalModel(data, parent: parent),
+            newEntry: false,
+          )
+        )
       ),
 
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(2),
-        child: Container(
-          height: 50,
-          decoration: BoxDecoration(border: Border.all(
-              color: Theme.of(context).colorScheme.inversePrimary,
-              width: 4
-          )),
-          padding: const EdgeInsetsDirectional.symmetric(
-            horizontal: 8,
-            vertical: 8
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Container(
+            decoration: const BoxDecoration(
+              color: Colors.lightBlue,
+            ),
+            child: Text(data.type.name.toUpperCase(),
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            )
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            
-            children: [
-              Text(
-                data.type.name.toUpperCase(), 
-                style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-              )),
-              const SizedBox(width: 8),
-              Flexible(
-                child: new Container(
-                child: Text(
-                  data.name,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.normal
-                  ),
-                ),
-              )),
-              const SizedBox(width: 8),
-              const Text(
-                "View", 
-                style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.normal,
-                color: Colors.blue,
-              ))
-            ],
-          ),
-        ),
+
+          if (data.question != null)
+            Text(data.question ?? "",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.black45
+              ),
+            ),
+
+          Text(data.content ?? "",
+            style: TextStyle(color: Colors.black),
+          )
+        ],
       ),
     );
   }
