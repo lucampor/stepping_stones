@@ -31,7 +31,6 @@ class SteppingStoneList extends StatelessWidget {
                 const Icon(Icons.circle, size: 5,),
               ].asMap().map((i, e) {
                   var sep = 10+sin(i)*-4;
-                  print(sep);
                   return MapEntry(i,
                     Padding(
                         padding: EdgeInsets.symmetric(

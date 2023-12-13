@@ -251,9 +251,9 @@ class _ObjectivePageState extends State<ObjectivePage> {
             listenable: widget.notifier,
             builder: (context, child) {
               var currentList = isJournal(widget.current) ? JournalList(widget.notifier) : SteppingStoneList(widget.notifier);
-              return Stack(
+              return Column(
                 children: [
-                  Center(
+                  Expanded(
                     child: (widget.notifier.isEmpty(widget.current) ? emptyMessage : currentList)
                   ),
                   Align(

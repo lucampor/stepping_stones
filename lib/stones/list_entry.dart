@@ -57,7 +57,7 @@ class StoneRect extends StatelessWidget {
               color: status.color,
             ),
             const VerticalDivider(),
-            Flexible(
+            Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -75,6 +75,12 @@ class StoneRect extends StatelessWidget {
                     ),
                   )
                 ],
+              ),
+            ),
+            const Align(
+              alignment: Alignment.centerRight,
+              child: Icon(
+                Icons.arrow_forward_ios_rounded
               ),
             )
           ],
